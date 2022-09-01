@@ -13,7 +13,6 @@ namespace Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Commands.Cre
         public CreateProgrammingLanguageCommandValidator()
         {
             RuleFor(p => p.Name).NotEmpty();
-            RuleFor(p => p.Name).NotEmpty();
         }
     }
 }
