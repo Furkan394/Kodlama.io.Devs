@@ -33,7 +33,7 @@ namespace Kodlama.io.Devs.Application.Features.ProgrammingLanguages.Commands.Del
 
                 _programmingLanguageBusinessRules.ProgrammingLanguageShouldExistWhenRequested(programmingLanguage!);
 
-                await _programmingLanguageRepository.DeleteAsync(programmingLanguage);
+                await _programmingLanguageRepository.DeleteAsync(programmingLanguage!);
 
                 return Unit.Value;
             }
