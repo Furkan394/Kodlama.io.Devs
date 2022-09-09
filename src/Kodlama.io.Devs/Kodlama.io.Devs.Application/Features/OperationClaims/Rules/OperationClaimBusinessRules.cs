@@ -1,4 +1,5 @@
 ﻿using Core.CrossCuttingConcerns.Exceptions;
+using Core.Persistence.Paging;
 using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using System;
@@ -16,6 +17,12 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Rules
         public OperationClaimBusinessRules(IOperationClaimRepository operationClaimRepository)
         {
             _operationClaimRepository = operationClaimRepository;
+        }
+
+        public async Task OperationClaimCanNotBeDuplicatedWhenInserted(string name)
+        {
+            IPaginate<OperationClaim> result = await _operationClaimRepository.GetListAsync(o => o.Name == name);
+            if (result.Items.Any()) throw new BusinessException("Operation claim exists.");
         }
 
         public void OperationClaimShouldExistWhenRequested(OperationClaim operationClaim)
