@@ -12,6 +12,7 @@ using Core.Application.Pipelines.Validation;
 using Kodlama.io.Devs.Application.Features.Technologies.Rules;
 using Kodlama.io.Devs.Application.Features.Auths.Rules;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
+using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
 
 namespace Kodlama.io.Devs.Application
 {
@@ -26,6 +27,7 @@ namespace Kodlama.io.Devs.Application
             services.AddScoped<TechnologyBusinessRules>();
             services.AddScoped<AuthBusinessRules>();
             services.AddScoped<GithubProfileBusinessRules>();
+            services.AddScoped<OperationClaimBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

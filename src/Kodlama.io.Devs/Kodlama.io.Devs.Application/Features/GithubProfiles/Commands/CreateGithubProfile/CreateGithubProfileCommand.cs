@@ -36,9 +36,9 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.CreateGit
 
                 GithubProfile githubProfile = _mapper.Map<GithubProfile>(request);
 
-                GithubProfile addedGithubProfile = await _githubProfileRepository.AddAsync(githubProfile);
+                GithubProfile createdGithubProfile = await _githubProfileRepository.AddAsync(githubProfile);
 
-                CreatedGithubProfileDto createdGithubProfileDto = _mapper.Map<CreatedGithubProfileDto>(addedGithubProfile);
+                CreatedGithubProfileDto createdGithubProfileDto = _mapper.Map<CreatedGithubProfileDto>(createdGithubProfile);
 
                 return createdGithubProfileDto;
             }

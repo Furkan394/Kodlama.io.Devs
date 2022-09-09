@@ -16,7 +16,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Queries.GetListGit
 {
     public class GetListGithubProfileQuery : IRequest<GithubProfileListModel>
     {
-        public PageRequest PageRequest { get; set; }
+        public PageRequest? PageRequest { get; set; }
 
         public class GetListGithubProfileQueryHandler : IRequestHandler<GetListGithubProfileQuery, GithubProfileListModel>
         {
@@ -32,7 +32,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Queries.GetListGit
             public async Task<GithubProfileListModel> Handle(GetListGithubProfileQuery request, CancellationToken cancellationToken)
             {
                 IPaginate<GithubProfile> githubProfiles = await _githubProfileRepository.GetListAsync(
-                                                                                       index: request.PageRequest.Page,
+                                                                                       index: request.PageRequest!.Page,
                                                                                        size: request.PageRequest.PageSize);
 
                 GithubProfileListModel githubProfileListModel = _mapper.Map<GithubProfileListModel>(githubProfiles);
