@@ -14,6 +14,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Features\Auths\Models\" />
+		<Folder Include="Features\Auths\Queries\" />
+		<Folder Include="Features\Auths\Constants\" />
+		<Folder Include="Features\GithubProfiles\Constants\" />
 		<Folder Include="Features\ProgrammingLanguages\Constants\" />
 		<Folder Include="Features\Technologies\Constants\" />
 	</ItemGroup>
