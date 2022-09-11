@@ -3,7 +3,6 @@ using Core.Persistence.Paging;
 using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.CreateUserOperationClaim;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
-using Kodlama.io.Devs.Application.Features.UserOperationClaims.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,6 @@ namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Profiles
             CreateMap<UserOperationClaim, CreateUserOperationClaimCommand>().ReverseMap();
             CreateMap<UserOperationClaim, CreatedUserOperationClaimDto>().ReverseMap();
             CreateMap<UserOperationClaim, UserOperationClaimGetByUserIdDto>().ReverseMap();
-            CreateMap<IPaginate<UserOperationClaim>, UserOperationClaimListModel>().ReverseMap();
 
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.CreateUserOperationClaim;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
-using Kodlama.io.Devs.Application.Features.UserOperationClaims.Models;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Queries.GetByUserIdUserOperationClaim;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,7 @@ namespace WebAPI.Controllers
         [HttpGet("{UserId}")]
         public async Task<IActionResult> Get([FromRoute] GetByUserIdUserOperationClaimQuery getByUserIdQuery)
         {
-            UserOperationClaimListModel result = await Mediator.Send(getByUserIdQuery);
+            UserOperationClaimGetByUserIdDto result = await Mediator.Send(getByUserIdQuery);
             return Ok(result);
         }
 

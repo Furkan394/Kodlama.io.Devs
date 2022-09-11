@@ -2,7 +2,7 @@
 using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Core.Security.Entities;
-using Kodlama.io.Devs.Application.Features.UserOperationClaims.Models;
+using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Queries.GetByUserIdUserOperationClaim
 {
-    public class GetByUserIdUserOperationClaimQuery : IRequest<UserOperationClaimListModel>
+    public class GetByUserIdUserOperationClaimQuery : IRequest<UserOperationClaimGetByUserIdDto>
     {
         public int UserId { get; set; }
 
-        public class GetByUserIdUserOperationClaimQueryHandler : IRequestHandler<GetByUserIdUserOperationClaimQuery, UserOperationClaimListModel>
+        public class GetByUserIdUserOperationClaimQueryHandler : IRequestHandler<GetByUserIdUserOperationClaimQuery, UserOperationClaimGetByUserIdDto>
         {
             private readonly IUserOperationClaimRepository _userOperationClaimRepository;
             private readonly IMapper _mapper;
@@ -29,15 +29,13 @@ namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Queries.GetBy
                 _mapper = mapper;
             }
 
-            public async Task<UserOperationClaimListModel> Handle(GetByUserIdUserOperationClaimQuery request, CancellationToken cancellationToken)
-            {
-                IPaginate<UserOperationClaim> userOperationClaims = await _userOperationClaimRepository.GetListAsync(
-                                                                                include: uo => uo.Include(u => u.User)
-                                                                                .Include(u => u.OperationClaim));
+            public async Task<UserOperationClaimGetByUserIdDto> Handle(GetByUserIdUserOperationClaimQuery request, CancellationToken cancellationToken)
+            { 
+                UserOperationClaim? userOperationClaim = await _userOperationClaimRepository.GetAsync(o => o.UserId == request.UserId);
 
-                UserOperationClaimListModel userOperationClaimListModel = _mapper.Map<UserOperationClaimListModel>(userOperationClaims);
+                UserOperationClaimGetByUserIdDto userOperationClaimGetByUserIdDto = _mapper.Map<UserOperationClaimGetByUserIdDto>(userOperationClaim);
 
-                return userOperationClaimListModel;
+                return userOperationClaimGetByUserIdDto;
             }
         }
     }

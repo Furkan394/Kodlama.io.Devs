@@ -19,6 +19,7 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Profiles
             CreateMap<OperationClaim, CreateOperationClaimCommand>().ReverseMap();
             CreateMap<OperationClaim, CreatedOperationClaimDto>().ReverseMap();
             CreateMap<OperationClaim, OperationClaimGetByIdDto>().ReverseMap();
+            CreateMap<OperationClaim, OperationClaimListDto>().ReverseMap();
             CreateMap<IPaginate<OperationClaim>, OperationClaimListModel>().ReverseMap();
         }
     }
