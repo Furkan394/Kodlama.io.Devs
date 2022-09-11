@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Dtos;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -12,11 +13,13 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.UpdateGithubProfile
 {
-    public class UpdateGithubProfileCommand : IRequest<UpdatedGithubProfileDto>
+    public class UpdateGithubProfileCommand : IRequest<UpdatedGithubProfileDto>, ISecuredRequest
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string GithubUrl { get; set; }
+        public string? GithubUrl { get; set; }
+
+        public string[] Roles { get; } = { "user" };
 
         public class UpdateGithubProfileCommandHandler : IRequestHandler<UpdateGithubProfileCommand, UpdatedGithubProfileDto>
         {
@@ -35,7 +38,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.UpdateGit
                 GithubProfile? githubProfile = await _githubProfileRepository.GetAsync(g => g.Id == request.Id);
 
                 _githubProfileBusinessRules.GithubProfileShouldExistWhenRequested(githubProfile!);
-                await _githubProfileBusinessRules.GithubProfileCanNotBeDuplicatedWhenInserted(request.GithubUrl);
+                await _githubProfileBusinessRules.GithubProfileCanNotBeDuplicatedWhenInserted(request.GithubUrl!);
 
                 _mapper.Map(request, githubProfile);
                 GithubProfile updatedGithubProfile = await _githubProfileRepository.UpdateAsync(githubProfile!);

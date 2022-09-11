@@ -1,8 +1,10 @@
 ﻿using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
 using Core.Security.Entities;
+using Core.Security.Hashing;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,12 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Rules
         public void UserShouldExistWhenRequested(User user)
         {
             if (user == null) throw new BusinessException("Requested user does not exist.");
+        }
+
+        public void VerifyUserPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            var result = HashingHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
+            if (!result) throw new BusinessException("Password is not correct.");
         }
     }
 }

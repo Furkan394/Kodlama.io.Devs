@@ -38,16 +38,22 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Login
             }
             public async Task<TokenDto> Handle(LoginCommand request, CancellationToken cancellationToken)
             {
-                User? user = await _userRepository.GetAsync(u => u.Email == request.Email);
+                User? user = await _userRepository.GetAsync(u => u.Email == request.Email, include: m => m.Include(c => c.UserOperationClaims).ThenInclude(x => x.OperationClaim));
+
+                List<OperationClaim> operationClaims = new() { };
+
+                foreach (var userOperationClaim in user.UserOperationClaims)
+                {
+                    operationClaims.Add(userOperationClaim.OperationClaim);
+                }
 
                 _authBusinessRules.UserShouldExistWhenRequested(user!);
+                _authBusinessRules.VerifyUserPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt);
 
-                var result = HashingHelper.VerifyPasswordHash(request.Password, user!.PasswordHash, user.PasswordSalt);
+                //var claims = await _userOperationClaimRepository.GetListAsync(o => o.UserId == user.Id,
+                //                                                              include: x => x.Include(c => c.OperationClaim));
 
-                var claims = await _userOperationClaimRepository.GetListAsync(o => o.UserId == user.Id,
-                                                                              include: x => x.Include(c => c.OperationClaim));
-
-                AccessToken accessToken = _tokenHelper.CreateToken(user, claims.Items.Select(c => c.OperationClaim).ToList());
+                AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims);
 
                 TokenDto tokenDto = _mapper.Map<TokenDto>(accessToken);
 

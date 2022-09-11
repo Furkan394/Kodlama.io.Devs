@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Dtos;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
@@ -12,10 +13,12 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.CreateGithubProfile
 {
-    public class CreateGithubProfileCommand : IRequest<CreatedGithubProfileDto>
+    public class CreateGithubProfileCommand : IRequest<CreatedGithubProfileDto>, ISecuredRequest
     {
         public int UserId { get; set; }
-        public string GithubUrl { get; set; }
+        public string? GithubUrl { get; set; }
+
+        public string[] Roles { get; } = { "user" };
 
         public class CreateGithubProfileCommandHandler : IRequestHandler<CreateGithubProfileCommand, CreatedGithubProfileDto>
         {
@@ -32,7 +35,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.CreateGit
 
             public async Task<CreatedGithubProfileDto> Handle(CreateGithubProfileCommand request, CancellationToken cancellationToken)
             {
-                await _githubProfileBusinessRules.GithubProfileCanNotBeDuplicatedWhenInserted(request.GithubUrl);
+                await _githubProfileBusinessRules.GithubProfileCanNotBeDuplicatedWhenInserted(request.GithubUrl!);
 
                 GithubProfile githubProfile = _mapper.Map<GithubProfile>(request);
 
