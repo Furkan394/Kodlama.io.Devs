@@ -13,6 +13,7 @@ using Kodlama.io.Devs.Application.Features.Technologies.Rules;
 using Kodlama.io.Devs.Application.Features.Auths.Rules;
 using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
+using Core.Application.Pipelines.Authorization;
 
 namespace Kodlama.io.Devs.Application
 {
@@ -32,6 +33,7 @@ namespace Kodlama.io.Devs.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
             return services;
         }
