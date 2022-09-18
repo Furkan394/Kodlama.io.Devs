@@ -40,18 +40,10 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Login
             {
                 User? user = await _userRepository.GetAsync(u => u.Email == request.Email, include: m => m.Include(c => c.UserOperationClaims).ThenInclude(x => x.OperationClaim));
 
-                List<OperationClaim> operationClaims = new() { };
-
-                foreach (var userOperationClaim in user.UserOperationClaims)
-                {
-                    operationClaims.Add(userOperationClaim.OperationClaim);
-                }
+                List<OperationClaim> operationClaims = user!.UserOperationClaims.Select(o => o.OperationClaim).ToList();
 
                 _authBusinessRules.UserShouldExistWhenRequested(user!);
                 _authBusinessRules.VerifyUserPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt);
-
-                //var claims = await _userOperationClaimRepository.GetListAsync(o => o.UserId == user.Id,
-                //                                                              include: x => x.Include(c => c.OperationClaim));
 
                 AccessToken accessToken = _tokenHelper.CreateToken(user, operationClaims);
 

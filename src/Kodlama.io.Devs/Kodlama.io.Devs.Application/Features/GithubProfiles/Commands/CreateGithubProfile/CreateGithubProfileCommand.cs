@@ -18,7 +18,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.CreateGit
         public int UserId { get; set; }
         public string? GithubUrl { get; set; }
 
-        public string[] Roles { get; } = { "user" };
+        public string[] Roles { get; } = new string[1] { "user" };
 
         public class CreateGithubProfileCommandHandler : IRequestHandler<CreateGithubProfileCommand, CreatedGithubProfileDto>
         {
