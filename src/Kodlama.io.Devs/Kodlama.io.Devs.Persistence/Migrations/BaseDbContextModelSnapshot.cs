@@ -267,7 +267,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
             modelBuilder.Entity("Core.Security.Entities.UserOperationClaim", b =>
                 {
                     b.HasOne("Core.Security.Entities.OperationClaim", "OperationClaim")
-                        .WithMany("UserOperationClaims")
+                        .WithMany()
                         .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -303,11 +303,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ProgrammingLanguage");
-                });
-
-            modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
-                {
-                    b.Navigation("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
