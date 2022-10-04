@@ -25,14 +25,12 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Login
         public class LoginCommandHandler : IRequestHandler<LoginCommand, LoggedDto>
         {
             private readonly IUserRepository _userRepository;
-            private readonly IMapper _mapper;
             private readonly AuthBusinessRules _authBusinessRules;
             private readonly IAuthService _authService;
 
-            public LoginCommandHandler(IUserRepository userRepository, IMapper mapper, AuthBusinessRules authBusinessRules, IAuthService authService)
+            public LoginCommandHandler(IUserRepository userRepository, AuthBusinessRules authBusinessRules, IAuthService authService)
             {
                 _userRepository = userRepository;
-                _mapper = mapper;
                 _authBusinessRules = authBusinessRules;
                 _authService = authService;
             }
