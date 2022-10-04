@@ -1,12 +1,12 @@
-﻿using AutoMapper;
+﻿using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
 using Core.Security.JWT;
 using Kodlama.io.Devs.Application.Features.Auths.Dtos;
 using Kodlama.io.Devs.Application.Features.Auths.Rules;
+using Kodlama.io.Devs.Application.Services.AuthService;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,56 +15,56 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Register
 {
-    public class RegisterCommand : IRequest<TokenDto>
+    public class RegisterCommand : IRequest<RegisteredDto>
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public UserForRegisterDto UserForRegisterDto { get; set; }
+        public string IpAddress { get; set; }
 
-        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, TokenDto>
+        public class RegisterCommandHandler : IRequestHandler<RegisterCommand, RegisteredDto>
         {
             private readonly IUserRepository _userRepository;
-            private readonly IUserOperationClaimRepository _userOperationClaimRepository;
-            private readonly IMapper _mapper;
-            private readonly ITokenHelper _tokenHelper;
             private readonly AuthBusinessRules _authBusinessRules;
+            private readonly IAuthService _authService;
 
-            public RegisterCommandHandler(IUserRepository userRepository, IMapper mapper, ITokenHelper tokenHelper, AuthBusinessRules authBusinessRules, IUserOperationClaimRepository userOperationClaimRepository)
+            public RegisterCommandHandler(IUserRepository userRepository, AuthBusinessRules authBusinessRules, IAuthService authService)
             {
                 _userRepository = userRepository;
-                _mapper = mapper;
-                _tokenHelper = tokenHelper;
                 _authBusinessRules = authBusinessRules;
-                _userOperationClaimRepository = userOperationClaimRepository;
+                _authService = authService;
             }
 
-            public async Task<TokenDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            public async Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
+
+                await _authBusinessRules.EmailCanNotBeDuplicatedWhenRegistered(request.UserForRegisterDto.Email);
+
                 byte[] passwordHash, passwordSalt;
-                HashingHelper.CreatePasswordHash(request.Password, out passwordHash, out passwordSalt);
+                HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSalt);
 
-                User user = _mapper.Map<User>(request);
-                user.Status = true;
-                user.PasswordHash = passwordHash;
-                user.PasswordSalt = passwordSalt;
-
-                await _authBusinessRules.UserCanNotBeDuplicatedWhenInserted(request.Email);
-
-                User createdUser = await _userRepository.AddAsync(user);
-
-                await _userOperationClaimRepository.AddAsync(new UserOperationClaim
+                User newUser = new()
                 {
-                    UserId = createdUser.Id,
-                    OperationClaimId = 2
-                });
+                    FirstName = request.UserForRegisterDto.FirstName,
+                    LastName = request.UserForRegisterDto.LastName,
+                    Email = request.UserForRegisterDto.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSalt,
+                    Status = true
+                };
 
-                var claims = await _userOperationClaimRepository.GetListAsync(o => o.UserId == createdUser.Id,
-                                                                              include: x => x.Include(c => c.OperationClaim));
-                AccessToken accessToken = _tokenHelper.CreateToken(user, claims.Items.Select(c => c.OperationClaim).ToList());
+                User createdUser = await _userRepository.AddAsync(newUser);
 
-                TokenDto tokenDto = _mapper.Map<TokenDto>(accessToken);
-                return tokenDto;
+                AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
+                RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IpAddress);
+                RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+                RegisteredDto registeredDto = new()
+                {
+                    AccessToken = createdAccessToken,
+                    RefreshToken = addedRefreshToken
+                };
+
+                return registeredDto;
+               
             }
         }
     }

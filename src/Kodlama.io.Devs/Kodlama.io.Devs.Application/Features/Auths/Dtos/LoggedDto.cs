@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.Auths.Dtos
 {
-    public class TokenDto
+    public class LoggedDto : RefreshedTokenDto
     {
-        public string Token { get; set; }
-        public DateTime Expiration { get; set; }
     }
 }

@@ -22,20 +22,20 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Rules
             _userRepository = userRepository;
         }
 
-        public async Task UserCanNotBeDuplicatedWhenInserted(string email)
+        public async Task EmailCanNotBeDuplicatedWhenRegistered(string email)
         {
-            IPaginate<User> result = await _userRepository.GetListAsync(u => u.Email == email);
-            if (result.Items.Any()) throw new BusinessException("User email exists.");
+           User? user = await _userRepository.GetAsync(u => u.Email == email);
+            if (user != null) throw new BusinessException("Email already exists.");
         }
 
-        public void UserShouldExistWhenRequested(User user)
+        public void MailMustExistWhenLoggingIn(string email)
         {
-            if (user == null) throw new BusinessException("Requested user does not exist.");
+            if (email == null) throw new BusinessException("This email does not exist.");
         }
 
         public void VerifyUserPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            var result = HashingHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
+            bool result = HashingHelper.VerifyPasswordHash(password, passwordHash, passwordSalt);
             if (!result) throw new BusinessException("Password is not correct.");
         }
     }

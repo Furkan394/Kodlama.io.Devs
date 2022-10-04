@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 		<Folder Include="Features\Auths\Models\" />
+		<Folder Include="Features\Auths\Profiles\" />
 		<Folder Include="Features\Auths\Queries\" />
 		<Folder Include="Features\Auths\Constants\" />
 		<Folder Include="Features\GithubProfiles\Constants\" />

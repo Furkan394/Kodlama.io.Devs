@@ -15,7 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddSecurityServices();
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddSecurityServices();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -97,8 +96,6 @@ if (app.Environment.IsDevelopment())
 
 if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

@@ -11,16 +11,20 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Register
     {
         public RegisterCommandValidator()
         {
-            RuleFor(u => u.FirstName).NotEmpty();
-            RuleFor(u => u.FirstName).MinimumLength(3);
+            RuleFor(u => u.UserForRegisterDto.FirstName).NotEmpty();
+            RuleFor(u => u.UserForRegisterDto.FirstName).NotNull();
+            RuleFor(u => u.UserForRegisterDto.FirstName).MinimumLength(3);
 
-            RuleFor(u => u.LastName).NotEmpty();
-            RuleFor(u => u.LastName).MinimumLength(3);
+            RuleFor(u => u.UserForRegisterDto.LastName).NotEmpty();
+            RuleFor(u => u.UserForRegisterDto.LastName).NotNull();
+            RuleFor(u => u.UserForRegisterDto.LastName).MinimumLength(3);
 
-            RuleFor(u => u.Email).NotEmpty();
-            RuleFor(u => u.Email).EmailAddress();
+            RuleFor(u => u.UserForRegisterDto.Email).NotEmpty();
+            RuleFor(u => u.UserForRegisterDto.Email).NotNull();
+            RuleFor(u => u.UserForRegisterDto.Email).EmailAddress();
 
-            RuleFor(u => u.Password).NotEmpty();
+            RuleFor(u => u.UserForRegisterDto.Password).NotEmpty();
+            RuleFor(u => u.UserForRegisterDto.Password).NotNull();
         }
     }
 }

@@ -11,10 +11,12 @@ namespace Kodlama.io.Devs.Application.Features.Auths.Commands.Login
     {
         public LoginCommandValidator()
         {
-            RuleFor(u => u.Email).NotEmpty();
-            RuleFor(u => u.Email).EmailAddress();
+            RuleFor(u => u.UserForLoginDto.Email).NotEmpty();
+            RuleFor(u => u.UserForLoginDto.Email).NotNull();
+            RuleFor(u => u.UserForLoginDto.Email).EmailAddress();
 
-            RuleFor(u => u.Password).NotEmpty();
+            RuleFor(u => u.UserForLoginDto.Password).NotEmpty();
+            RuleFor(u => u.UserForLoginDto.Password).NotNull();
         }
     }
 }
