@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
@@ -12,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.OperationClaims.Queries.GetByIdOperationClaim
 {
-    public class GetByIdOperationClaimQuery : IRequest<OperationClaimGetByIdDto>
+    public class GetByIdOperationClaimQuery : IRequest<OperationClaimGetByIdDto>, ISecuredRequest
     {
         public int Id { get; set; }
-
+        public string[] Roles { get; } = new string[1] { "admin" };
         public class GetByIdOperationClaimQueryHandler : IRequestHandler<GetByIdOperationClaimQuery, OperationClaimGetByIdDto>
         {
             private readonly IOperationClaimRepository _operationClaimRepository;

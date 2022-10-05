@@ -19,7 +19,7 @@ namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.UpdateGit
         public int UserId { get; set; }
         public string? GithubUrl { get; set; }
 
-        public string[] Roles { get; } = { "user" };
+        public string[] Roles { get; } = new string[1] { "user" };
 
         public class UpdateGithubProfileCommandHandler : IRequestHandler<UpdateGithubProfileCommand, UpdatedGithubProfileDto>
         {

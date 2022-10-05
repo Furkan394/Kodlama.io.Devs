@@ -1,4 +1,5 @@
-﻿using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
+﻿using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
@@ -10,9 +11,10 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.GithubProfiles.Commands.DeleteGithubProfile
 {
-    public class DeleteGithubProfileCommand : IRequest
+    public class DeleteGithubProfileCommand : IRequest, ISecuredRequest
     {
         public int Id { get; set; }
+        public string[] Roles { get; } = new string[1] { "user" };
 
         public class DeleteGithubProfileCommandHandler : IRequestHandler<DeleteGithubProfileCommand>
         {

@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace Kodlama.io.Devs.Application.Features.OperationClaims.Commands.CreateOperationClaim
 {
-    public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimDto>
+    public class CreateOperationClaimCommand : IRequest<CreatedOperationClaimDto>, ISecuredRequest
     {
         public string? Name { get; set; }
+        public string[] Roles { get; } = new string[1] { "admin" };
 
         public class CreateOperationClaimCommandHandler : IRequestHandler<CreateOperationClaimCommand, CreatedOperationClaimDto>
         {
