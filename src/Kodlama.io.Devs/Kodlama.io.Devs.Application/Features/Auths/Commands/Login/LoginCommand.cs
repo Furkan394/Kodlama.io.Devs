@@ -1,14 +1,11 @@
-﻿using AutoMapper;
-using Core.Security.Dtos;
+﻿using Core.Security.Dtos;
 using Core.Security.Entities;
-using Core.Security.Hashing;
 using Core.Security.JWT;
 using Kodlama.io.Devs.Application.Features.Auths.Dtos;
 using Kodlama.io.Devs.Application.Features.Auths.Rules;
 using Kodlama.io.Devs.Application.Services.AuthService;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,7 @@
 ﻿using Core.Application.Requests;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Commands.CreateOperationClaim;
+using Kodlama.io.Devs.Application.Features.OperationClaims.Commands.DeleteOperationClaim;
+using Kodlama.io.Devs.Application.Features.OperationClaims.Commands.UpdateOperationClaim;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Models;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Queries.GetByIdOperationClaim;
@@ -33,6 +35,20 @@ namespace WebAPI.Controllers
         {
             CreatedOperationClaimDto result = await Mediator.Send(createOperationClaimCommand);
             return Created("", result);
+        }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> Update([FromBody] UpdateOperationClaimCommand updateOperationClaimCommand)
+        {
+            UpdatedOperationClaimDto result = await Mediator.Send(updateOperationClaimCommand);
+            return Created("", result);
+        }
+
+        [HttpPost("delete/{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] DeleteOperationClaimCommand deleteOperationClaimCommand)
+        {
+            await Mediator.Send(deleteOperationClaimCommand);
+            return Ok();
         }
     }
 }

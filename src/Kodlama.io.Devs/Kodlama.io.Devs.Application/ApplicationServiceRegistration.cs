@@ -15,6 +15,7 @@ using Kodlama.io.Devs.Application.Features.GithubProfiles.Rules;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
 using Core.Application.Pipelines.Authorization;
 using Kodlama.io.Devs.Application.Services.AuthService;
+using Kodlama.io.Devs.Application.Features.UserOperationClaims.Rules;
 
 namespace Kodlama.io.Devs.Application
 {
@@ -30,6 +31,7 @@ namespace Kodlama.io.Devs.Application
             services.AddScoped<AuthBusinessRules>();
             services.AddScoped<GithubProfileBusinessRules>();
             services.AddScoped<OperationClaimBusinessRules>();
+            services.AddScoped<UserOperationClaimBusinessRules>();
 
             services.AddScoped<IAuthService, AuthManager>();
 

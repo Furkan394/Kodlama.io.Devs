@@ -21,8 +21,8 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Rules
 
         public async Task OperationClaimCanNotBeDuplicatedWhenInserted(string name)
         {
-            IPaginate<OperationClaim> result = await _operationClaimRepository.GetListAsync(o => o.Name == name);
-            if (result.Items.Any()) throw new BusinessException("Operation claim exists.");
+            OperationClaim? operationClaim = await _operationClaimRepository.GetAsync(o => o.Name == name);
+            if (operationClaim != null) throw new BusinessException("Operation claim exists.");
         }
 
         public void OperationClaimShouldExistWhenRequested(OperationClaim operationClaim)

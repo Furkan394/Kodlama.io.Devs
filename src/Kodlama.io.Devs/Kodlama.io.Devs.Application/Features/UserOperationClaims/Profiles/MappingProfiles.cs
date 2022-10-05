@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Core.Persistence.Paging;
 using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.CreateUserOperationClaim;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
