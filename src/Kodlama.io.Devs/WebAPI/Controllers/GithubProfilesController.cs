@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateGithubProfileCommand updateGithubProfileCommand)
         {
             UpdatedGithubProfileDto result = await Mediator.Send(updateGithubProfileCommand);
-            return Created("", result);
+            return Ok(result);
 
         }
 

@@ -35,8 +35,8 @@ namespace WebAPI.Controllers
             };
 
             LoggedDto result = await Mediator.Send(loginCommand);
-            SetRefreshTokenToCookie(result.RefreshToken);
-            return Created("", result.AccessToken);
+            if(result.RefreshToken is not null) SetRefreshTokenToCookie(result.RefreshToken);
+            return Ok(result.AccessToken);
         }
 
         private void SetRefreshTokenToCookie(RefreshToken refreshToken)

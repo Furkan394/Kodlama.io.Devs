@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateOperationClaimCommand updateOperationClaimCommand)
         {
             UpdatedOperationClaimDto result = await Mediator.Send(updateOperationClaimCommand);
-            return Created("", result);
+            return Ok(result);
         }
 
         [HttpPost("delete/{Id}")]
