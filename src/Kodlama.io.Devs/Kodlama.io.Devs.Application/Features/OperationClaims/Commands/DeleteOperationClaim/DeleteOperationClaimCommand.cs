@@ -3,6 +3,7 @@ using Core.Security.Entities;
 using Kodlama.io.Devs.Application.Features.OperationClaims.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
+using static Kodlama.io.Devs.Domain.Constants.OperationClaims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Kodlama.io.Devs.Application.Features.OperationClaims.Commands.DeleteOp
     public class DeleteOperationClaimCommand : IRequest, ISecuredRequest
     {
         public int Id { get; set; }
-        public string[] Roles { get; } = new string[1] { "admin" };
+        public string[] Roles => new[] { Admin };
 
         public class DeleteOperationClaimCommandHandler : IRequestHandler<DeleteOperationClaimCommand>
         {

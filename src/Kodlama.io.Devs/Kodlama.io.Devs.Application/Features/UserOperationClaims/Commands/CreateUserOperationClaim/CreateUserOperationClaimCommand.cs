@@ -5,6 +5,7 @@ using Kodlama.io.Devs.Application.Features.UserOperationClaims.Dtos;
 using Kodlama.io.Devs.Application.Features.UserOperationClaims.Rules;
 using Kodlama.io.Devs.Application.Services.Repositories;
 using MediatR;
+using static Kodlama.io.Devs.Domain.Constants.OperationClaims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Kodlama.io.Devs.Application.Features.UserOperationClaims.Commands.Crea
     {
         public int UserId { get; set; }
         public int OperationClaimId { get; set; }
-        public string[] Roles { get; } = new string[1] { "admin" };
+        public string[] Roles => new[] { Admin };
 
         public class CreateUserOperationClaimCommandHandler : IRequestHandler<CreateUserOperationClaimCommand, CreatedUserOperationClaimDto>
         {
