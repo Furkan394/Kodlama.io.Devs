@@ -1,6 +1,6 @@
 # Kodlama.io.Devs
 
-### This project is being developed in line with the "Senior Software Developer Training Camp (.NET)" from "kodlama.io" courses.
+### This project is being developed in line with the 'Senior Software Developer Training Camp (.NET)' course from 'kodlama.io'.
 
 ### Architecture, technologies and patterns: <br>
 :star: .NET Core 6 <br>
